@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tw.gov.idb.base.dao.ScheduleDao">
+    <insert id="scheduleJob">
+        INSERT INTO schedule
+        (jobId, jobName, param, description, scheduleTime, exeStart, exeEnd, status, result, addId, addTime, cancelId,
+         cancelTime)
+        VALUES (#{jobId}, #{jobName}, #{param},#{description}, #{scheduleTime}, #{exeStart}, #{exeEnd}, #{status},
+                #{result}, #{addId}, #{addTime}, #{cancelId}, #{cancelTime});
+    </insert>
+
+    <update id="updateJob" parameterType="Schedule">
+        UPDATE schedule
+        <set>
+            <if test="jobName != null">
+                jobName = #{jobName},
+            </if>
+            <if test="param != null">
+                param = #{param},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="scheduleTime != null">
+                scheduleTime = #{scheduleTime},
+            </if>
+            <if test="exeStart != null">
+                exeStart = #{exeStart},
+            </if>
+            <if test="exeEnd != null">
+                exeEnd = #{exeEnd},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="result != null">
+                result = #{result},
+            </if>
+            <if test="cancelId != null">
+                cancelId = #{cancelId},
+            </if>
+            <if test="cancelTime != null">
+                cancelTime = #{cancelTime},
+            </if>
+        </set>
+        WHERE jobId = #{jobId}
+    </update>
+    
+      <select id="selectSchedules" resultType="Schedule">
+        select * from schedule t
+        <where>
+            <if test="jobName != null and jobName != ''">
+                AND t.jobName like concat("%", #{jobName},"%")
+            </if>
+
+            <if test="addId != null and addId != ''">
+                AND t.addId like concat("%", #{addId},"%")
+            </if>
+            
+             <if test="status != null and status != ''">
+                AND t.status = #{status}
+            </if>
+            
+        </where>
+        order by scheduleTime desc
+    </select>
+    
+     <select id="seletOneSchedule" resultType="Schedule">
+        select *
+        from schedule t
+        where t.jobId = #{jobId}
+    </select>
+</mapper>

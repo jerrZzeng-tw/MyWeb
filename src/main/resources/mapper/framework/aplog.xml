@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tw.gov.idb.base.framework.dao.AplogDao">
+    <select id="insertAplog" resultType="Aplog">
+        INSERT INTO aplog
+            (userid, page, url, accessTime, data)
+        VALUES (#{userid}, #{page}, #{url}, #{accessTime}, #{data})
+    </select>
+</mapper>

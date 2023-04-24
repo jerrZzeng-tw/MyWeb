@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tw.gov.idb.base.framework.dao.ItemDao">
+
+    <select id="selectUserItems" resultType="Item">
+        select t.*
+        from item t
+        where (t.type = 0 and t.levelNo > 0)
+           or (t.itemId in (select itemId
+                            from role_item
+                            where roleId in (select roleid
+                                             from user_role
+                                             where userId = #{userId})))
+        order by t.itemId
+    </select>
+    
+    <select id="selectOptions" resultType="String">
+       select t.itemId  from item t where t.type  = '0'
+    </select>
+    
+     <select id="selectItems" resultType="Item">
+		select t.*  from item t where t.itemIdParent = #{itemIdParent}
+    </select>
+    
+     <select id="seletOneItem" resultType="Item">
+		select t.*  from item t where t.itemId = #{itemId}
+    </select>
+    
+    <select id="selectLevelNo" resultType="String">
+		select t.levelNo  from item t where t.itemId = #{itemId}
+    </select>
+    
+    <select id="countItemId" resultType="Integer">
+		select count(itemId)  from item t where t.itemId = #{itemId}
+    </select>
+    
+      <insert id="insertData">
+         INSERT INTO item (
+		  itemId, itemIdParent, levelNo, itemName, 
+		  url, sortOrder, type
+		) 
+		VALUES 
+		  (
+		    #{itemId},
+		    #{itemIdParent},
+		    #{levelNo},
+		    #{itemName},
+		    #{url},
+		    #{sortOrder},
+		    #{type}
+		  )
+    </insert>
+    
+    <update id="updateData" parameterType="Item">
+		UPDATE item
+		SET    itemname = #{itemName},
+		       url = #{url},
+		       sortOrder = #{sortOrder},
+		       type = #{type}
+		WHERE  itemid = #{itemId} 
+    </update>
+    
+     <select id="selectChildnodes" resultType="Item">
+       select t.itemName ,t.url,t.itemId  from item t where t.type  = '1'
+    </select>
+    
+     <delete id="deleteType1" parameterType="String">
+        DELETE FROM item
+  			 WHERE  itemid = #{itemId} 
+    </delete>
+    
+     <delete id="deleteType0" parameterType="String">
+  		DELETE FROM item  
+  		 WHERE itemid = #{itemId}  
+ 		   AND itemId NOT IN ( 
+ 			  SELECT a.itemIdParent FROM (
+ 				select itemIdParent  from item  
+ 			) a
+ 		)	 
+    </delete>
+</mapper>

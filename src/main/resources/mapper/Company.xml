@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tw.gov.idb.base.dao.CompanyDao">
+    <sql id="getNowDateTime">
+        <!-- 此為MYSQL 語法, 需要視情況修改 -->
+        (SELECT DATE_FORMAT(DATE_ADD(UTC_TIMESTAMP(), INTERVAL 8 HOUR), '%Y%m%d%H%i%s'))
+    </sql>
+
+    <select id="selectCompanys" resultType="Company">
+        select * from company t
+        <where>
+            <if test="companyName != null and companyName != ''">
+                AND t.companyName like concat("%", #{companyName},"%")
+            </if>
+
+            <if test="owner != null and owner != ''">
+                AND t.owner like concat("%", #{owner},"%")
+            </if>
+
+            <if test="capital != null and capital != ''">
+                AND CASE capital WHEN null THEN 0 ELSE capital END >= #{capital}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCompanysForReport" resultType="Company">
+        select * from company t
+        <where>
+            <if test="companyName != null and companyName != ''">
+                AND t.companyName like concat("%", #{companyName},"%")
+            </if>
+
+            <if test="owner != null and owner != ''">
+                AND t.owner like concat("%", #{owner},"%")
+            </if>
+        </where>
+    </select>
+
+    <select id="seletOneCompany" resultType="Company">
+        select *
+        from company t
+        where t.id = #{id}
+    </select>
+
+
+    <insert id="insertData" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO company (companyName, owner, ownerIdn, email, website,
+                             uniformNumbers, persons, capital, city, area,
+                             addr, issueDate, updateTime)
+        VALUES (#{companyName},
+                #{owner},
+                #{ownerIdn},
+                #{email},
+                #{website},
+                #{uniformNumbers},
+                #{persons},
+                #{capital},
+                #{city},
+                #{area},
+                #{addr},
+                #{issueDate},
+                #{updateTime})
+    </insert>
+
+    <update id="updateData" parameterType="Company">
+        UPDATE company
+        <set>
+            <if test="companyName != null">
+                companyName = #{companyName},
+            </if>
+            <if test="owner != null">
+                owner = #{owner},
+            </if>
+            <if test="ownerIdn != null">
+                ownerIdn = #{ownerIdn},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="website != null">
+                website = #{website},
+            </if>
+            <if test="uniformNumbers != null">
+                uniformNumbers = #{uniformNumbers},
+            </if>
+            <if test="persons != null">
+                persons = #{persons},
+            </if>
+            <if test="capital != null">
+                capital = #{capital},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="area != null">
+                area = #{area},
+            </if>
+            <if test="addr != null">
+                addr = #{addr},
+            </if>
+            <if test="issueDate != null">
+                issueDate = #{issueDate},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <delete id="deleteData" parameterType="Company">
+        DELETE
+        FROM company
+        WHERE id = #{id}
+    </delete>
+
+
+    <insert id="backupData" parameterType="Company">
+        INSERT INTO company_backup (id, companyName, owner, ownerIdn,email,
+        website,uniformNumbers,persons,capital,city,
+        area,addr,issueDate,updateTime,backupTime)
+        SELECT id, companyName, owner, ownerIdn,email,
+        website,uniformNumbers,persons,capital,city,
+        area,addr,issueDate,updateTime,
+        <include refid="getNowDateTime"/>
+        FROM company
+        WHERE id = #{id}
+    </insert>
+</mapper>

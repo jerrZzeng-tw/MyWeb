@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <!--不同模組改這邊Start-->
+        <Property name="logSuffix">${sys:logSuffix:-host}</Property>
+        <Property name="fileName">/log/aplog/base_${map:logSuffix}.log</Property>
+        <!--不同模組改這邊End-->
+    </Properties>
+    <Appenders>
+        <Console name="A1" target="SYSTEM_OUT">
+            <PatternLayout pattern="%5p %d{yyyy-MM-dd HH:mm:ss,SSS} -[%c{1}]: %m%n"/>
+        </Console>
+        <RollingFile name="A2" fileName="${map:fileName}" filePattern="${map:fileName}.%d{yyyy-MM-dd}">
+            <PatternLayout pattern="[%d][%p][%C.%M] %m%n" charset="UTF-8"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="A1"/>
+            <AppenderRef ref="A2"/>
+        </Root>
+        <logger name="org.apache" level="INFO"/>
+        <logger name="org.hibernate" level="INFO"/>
+        <logger name="org.quartz" level="INFO"/>
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="tw.gov.idb.base.dao" level="INFO"/><!-- 要看SQL 修改為DEBUG -->
+    </Loggers>
+</Configuration>
