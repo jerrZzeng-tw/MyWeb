@@ -1,0 +1,50 @@
+/* ------------------------------------------------------- */
+/* DataTables                                              */
+/* ------------------------------------------------------- */
+.dataTablesDiv {
+    width: 100%;
+}
+
+.dataTablesDiv td {
+    empty-cells: show !important;
+}
+
+button.dt-button, div.dt-button, a.dt-button {
+    margin-top: 5px !important;
+}
+
+/* ------------------------------------------------------- */
+/* noty.js                                                 */
+/* ------------------------------------------------------- */
+
+#noty_layout__center {
+    width: 40% !important;
+}
+#noty_center_layout_container li {
+    width: 100% !important;
+}
+
+.noty_message { 
+    font-size: 16px !important;
+    line-height: 24px !important;
+    text-align: left !important; 
+}
+
+.noty_modal { opacity: 0 !important; }
+
+.noty_buttons {
+    background-color: white !important;
+    text-align: right !important;
+}
+
+.notyButton {
+    font-size: 14px !important;
+    margin-left: 5px;
+}
+
+/* ------------------------------------------------------- */
+/* systemMessage                                           */
+/* ------------------------------------------------------- */
+#systemMessage {
+	color: #FF0000;
+}

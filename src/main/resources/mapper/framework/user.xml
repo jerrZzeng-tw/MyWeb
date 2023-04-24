@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tw.gov.idb.base.framework.dao.UserDao">
+    <select id="selectUser" resultType="User">
+        select t.*
+        from user t
+        where t.id = #{id}
+          and t.pw = #{pw}
+    </select>
+    
+    <select id="selectUsers" resultType="User" parameterType="String">
+		select t.*  from user t 
+		 <where>
+            <if test="id != null and id != ''">
+                AND id like concat("%", #{id},"%")
+            </if>
+
+            <if test="name != null and name != ''">
+                AND name like concat("%", #{name},"%")
+            </if>
+        </where>
+    </select>
+    
+    
+      <insert id="insertData">
+         INSERT INTO user (
+		  id, name, pw, mail, 
+		  empNo, memo, updateTime
+		) 
+		VALUES 
+		  (
+		    #{id},
+		    #{name},
+		    #{pw},
+		    #{mail},
+		    #{empNo},
+		    #{memo},
+		    #{updateTime}
+		  )
+    </insert>
+    
+      <select id="seletOneUser" resultType="User">
+		select t.*  from user t where t.id = #{id}
+    </select>
+    
+     <update id="updateData" parameterType="User">
+		UPDATE user
+		<set>   name = #{name},
+			 <if test="pw != null and pw != ''">
+                pw = #{pw},
+             </if>
+		       mail = #{mail},
+		       empNo = #{empNo},
+		       memo = #{memo},
+		       updateTime = #{updateTime}
+		</set>
+		WHERE  id = #{id} 
+    </update>
+    
+     <delete id="deleteData" parameterType="String">
+        DELETE FROM user
+  			 WHERE  id = #{id} 
+    </delete>
+    
+      <select id="countUserId" resultType="Integer">
+		select count(id)  from user t where t.id = #{id}
+    </select>
+    
+</mapper>

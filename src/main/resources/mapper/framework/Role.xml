@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tw.gov.idb.base.framework.dao.RoleDao">
+    <sql id="getNowDateTime">
+        <!-- 此為MYSQL 語法, 需要視情況修改 -->
+        (SELECT DATE_FORMAT(DATE_ADD(UTC_TIMESTAMP(), INTERVAL 8 HOUR), '%Y%m%d%H%i%s'))
+    </sql>
+    <select id="selectRoles" resultType="Role">
+        select t.*
+        from role t
+    </select>
+
+    <select id="countRoleId" resultType="Integer">
+        select count(roleId)
+        from role t
+        where t.roleId = #{roleId}
+    </select>
+
+    <insert id="insertData">
+        INSERT INTO role (roleId, roleName, roleDesc)
+        VALUES (#{roleId},
+                #{roleName},
+                #{roleDesc})
+    </insert>
+
+    <update id="updateData" parameterType="Role">
+        UPDATE role
+        SET roleName = #{roleName},
+            roleDesc = #{roleDesc}
+        WHERE roleId = #{roleId}
+    </update>
+
+    <delete id="deleteData" parameterType="Role">
+        DELETE
+        FROM role
+        WHERE roleId = #{roleId}
+    </delete>
+
+    <insert id="backupData" parameterType="Role">
+        INSERT INTO role_backup (roleId, roleName, roleDesc, backuptime)
+        SELECT roleId,
+        roleName,
+        roleDesc,
+        <include refid="getNowDateTime"/>
+        FROM role
+        WHERE roleId = #{roleId}
+    </insert>
+
+</mapper>
