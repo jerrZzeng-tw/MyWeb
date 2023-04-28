@@ -26,18 +26,19 @@
 
 - 完整權限管控,使用者只能存取有授權的功能跟頁面
 - 全系統統一錯誤頁面跟無權限存取頁面,以防系統資訊外洩
-- 使用最新版**Springboots**支援**JAR**檔或**WAR**檔運行
-- 前端整合JSP,Jquery,DataTables
-- 後端整合Spring MVC,Mybatis,hibernate validator,Caffeine cache,Quartz
-- 使用 **@APLOG** 記錄使用者每次輸入資訊
-- 使用 **@BACKUPDATA** 備份每次使用者修改或刪除的資料
-- 內建Quartz排程監控功能
-- 頁面有防止使用者**Double Submit**功能
+- 使用最新版`Springboots`支援`JAR`檔或`WAR`檔運行
+- 前端整合`JSP`,`Jquery`,`DataTables`
+- 後端整合`Spring MVC`,`Mybatis`,`Hibernate Validator`,`Caffeine cache`,`Quartz`
+- 報表使用 `POI`,`iText`
+- 使用自行開發之 `@APLOG` 記錄使用者每次輸入資訊
+- 使用自行開發之 `@BACKUPDATA` 備份每次使用者修改或刪除的資料
+- 自行開發之Quartz排程監控功能
+- 頁面有防止使用者`Double Submit`功能
 
 
 ## 說明文件
 
-本系統說明文件放在 **doc** 資料夾下.
+本系統說明文件放在 `doc` 資料夾下.
 
 | 名稱            | 說明               |
 |:--------------|:-----------------|
@@ -47,7 +48,7 @@
 | 排程開發          | 系統排程開發說明         |
 
 ## DB 
-使用 **doc/SQL** 資料夾下建立DB所需TABLE.
+使用 `doc/SQL` 資料夾下建立DB所需TABLE.
 
 ## web登入
 登入帳號:sys <br>
